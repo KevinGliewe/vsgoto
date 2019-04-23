@@ -30,6 +30,7 @@ namespace vsgoto
                 if (args.Length < 1)
                 {
                     ExportRegFile();
+                    Console.WriteLine("Reg-File Generated...");
                     throw new Exception("Missing Arguments!");
                 }
 
@@ -47,13 +48,14 @@ namespace vsgoto
             } catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                Console.ReadLine();
             }
-            //Console.ReadLine();
         }
 
         public static void ExportRegFile()
         {
-            File.WriteAllText("vsgoto.reg", $@"
+            File.WriteAllText("vsgoto.reg", $@"Windows Registry Editor Version 5.00
+
 [HKEY_CLASSES_ROOT\vsgoto]
 ""URL Protocol""=""""
 @= ""URL:vsgoto""
