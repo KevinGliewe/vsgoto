@@ -4,14 +4,15 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace vsgoto
 {
     class Program
     {
-        public static readonly string CODE = "code.cmd";
         public static readonly string SCHEMA = "vsgoto:";
+        public static readonly Regex PARSER = new Regex("(.*):(\\d+)");
 
         static void Main(string[] args)
         {
@@ -20,12 +21,6 @@ namespace vsgoto
 
             try
             {
-                var code = GetFullPath(CODE);
-
-                if (code is null)
-                    throw new Exception($"Can't find '{CODE}' in PATH");
-                else
-                    Console.WriteLine($"Found code Command: '{code}'");
 
                 if (args.Length < 1)
                 {
@@ -37,19 +32,34 @@ namespace vsgoto
                 if (!args[0].StartsWith(SCHEMA))
                     throw new Exception("Wrong Schema!");
 
-
                 var uriFile = args[0].Substring(SCHEMA.Length, args[0].Length - SCHEMA.Length);
-                var vsargs = "-g \"" + uriFile + "\"";
 
-                Console.WriteLine("ARGS: " + vsargs);
+                var m = PARSER.Match(uriFile);
 
-                var result = ExFile(code, vsargs);
-                Console.WriteLine(result);
+                var file = uriFile;
+                var line = 1;
+
+                if(m.Success)
+                {
+                    file = m.Groups[1].Value;
+                    line = int.Parse(m.Groups[2].Value);
+                }
+
+                OpenFile(file, line);
             } catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 Console.ReadLine();
             }
+        }
+
+        public static void OpenFile(string file, int line)
+        {
+            EnvDTE80.DTE2 dte2;
+            dte2 = (EnvDTE80.DTE2)System.Runtime.InteropServices.Marshal.GetActiveObject("VisualStudio.DTE");
+            dte2.MainWindow.Activate();
+            EnvDTE.Window w = dte2.ItemOperations.OpenFile(file);
+            ((EnvDTE.TextSelection)dte2.ActiveDocument.Selection).GotoLine(line, true);
         }
 
         public static void ExportRegFile()
@@ -67,40 +77,6 @@ namespace vsgoto
 [HKEY_CLASSES_ROOT\vsgoto\shell\open\command]
 @= ""\""{typeof(Program).Assembly.Location.Replace("\\", "\\\\")}\"" \""%1\""""
 ");
-        }
-
-        public static string ExFile(string file, string args)
-        {
-            var process = new Process()
-            {
-                StartInfo = new ProcessStartInfo
-                {
-                    FileName = file,
-                    Arguments = args,
-                    RedirectStandardOutput = true,
-                    UseShellExecute = false,
-                    CreateNoWindow = true,
-                }
-            };
-            process.Start();
-            string result = process.StandardOutput.ReadToEnd();
-            process.WaitForExit();
-            return result.Trim();
-        }
-
-        public static string GetFullPath(string fileName)
-        {
-            if (File.Exists(fileName))
-                return Path.GetFullPath(fileName);
-
-            var values = Environment.GetEnvironmentVariable("PATH");
-            foreach (var path in values.Split(';'))
-            {
-                var fullPath = Path.Combine(path, fileName);
-                if (File.Exists(fullPath))
-                    return fullPath;
-            }
-            return null;
         }
     }
 }
