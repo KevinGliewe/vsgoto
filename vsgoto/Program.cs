@@ -19,7 +19,10 @@ namespace vsgoto
         static void Main(string[] args)
         {
             for (int i = 0; i < args.Length; i++)
-                Console.WriteLine($"%{i}: " + args[i]);
+                Console.WriteLine($"%{i}: \"{Escape(args[i])}\"");
+
+            string file = "";
+            int line = 1;
 
             try
             {
@@ -39,8 +42,8 @@ namespace vsgoto
 
                 var m = PARSER.Match(uriFile);
 
-                var file = uriFile;
-                var line = 1;
+                file = uriFile;
+                line = 1;
 
                 if(m.Success)
                 {
@@ -48,13 +51,18 @@ namespace vsgoto
                     line = int.Parse(m.Groups[2].Value);
                 }
 
-                foreach (DictionaryEntry env in Environment.GetEnvironmentVariables())
+                foreach (DictionaryEntry env in Environment.GetEnvironmentVariables()) {
                     file = InjectSingleValue(file, env.Key.ToString(), env.Value);
+                }
+
+
 
                 OpenFile(file, line);
             } catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                Console.WriteLine($"file: {Escape(file)}");
+                Console.WriteLine($"line: {line}");
                 Console.ReadLine();
             }
         }
@@ -115,6 +123,57 @@ namespace vsgoto
             }
             return result;
 
+        }
+
+        public static string Escape(string s) {
+            if (s == null || s.Length == 0) {
+                return "";
+            }
+
+            char c = '\0';
+            int i;
+            int len = s.Length;
+            StringBuilder sb = new StringBuilder(len + 4);
+            String t;
+
+            for (i = 0; i < len; i += 1) {
+                c = s[i];
+                switch (c) {
+                    case '\\':
+                    case '"':
+                        sb.Append('\\');
+                        sb.Append(c);
+                        break;
+                    case '/':
+                        sb.Append('\\');
+                        sb.Append(c);
+                        break;
+                    case '\b':
+                        sb.Append("\\b");
+                        break;
+                    case '\t':
+                        sb.Append("\\t");
+                        break;
+                    case '\n':
+                        sb.Append("\\n");
+                        break;
+                    case '\f':
+                        sb.Append("\\f");
+                        break;
+                    case '\r':
+                        sb.Append("\\r");
+                        break;
+                    default:
+                        if (c < ' ') {
+                            t = "000" + String.Format("X", c);
+                            sb.Append("\\u" + t.Substring(t.Length - 4));
+                        } else {
+                            sb.Append(c);
+                        }
+                        break;
+                }
+            }
+            return sb.ToString();
         }
     }
 }
