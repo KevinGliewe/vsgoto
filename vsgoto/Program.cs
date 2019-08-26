@@ -35,6 +35,7 @@ namespace vsgoto
                     throw new Exception("Wrong Schema!");
 
                 var uriFile = args[0].Substring(SCHEMA.Length, args[0].Length - SCHEMA.Length);
+                uriFile = Uri.UnescapeDataString(uriFile);
 
                 var m = PARSER.Match(uriFile);
 
