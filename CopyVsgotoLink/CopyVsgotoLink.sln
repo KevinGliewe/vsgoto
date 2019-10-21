@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.902
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CopyVsgotoLink", "CopyVsgotoLink\CopyVsgotoLink.csproj", "{184E1330-D1E0-4B74-85C7-B33BA8C958DF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{184E1330-D1E0-4B74-85C7-B33BA8C958DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{184E1330-D1E0-4B74-85C7-B33BA8C958DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{184E1330-D1E0-4B74-85C7-B33BA8C958DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{184E1330-D1E0-4B74-85C7-B33BA8C958DF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {28C8DC1C-950D-4A13-9F8E-94E3848FB824}
+	EndGlobalSection
+EndGlobal
