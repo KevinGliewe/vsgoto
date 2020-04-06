@@ -16,6 +16,14 @@ namespace vsgoto
         public static readonly string SCHEMA = "vsgoto:";
         public static readonly Regex PARSER = new Regex("(.*):(\\d+)");
 
+        public static Dictionary<string, string> VSVersions = new Dictionary<string, string>()
+        {
+            {"2013", "12.0"},
+            {"2015", "14.0"},
+            {"2017", "15.0"},
+            {"2019", "16.0"},
+        };
+
         static void Main(string[] args)
         {
             for (int i = 0; i < args.Length; i++)
@@ -70,10 +78,33 @@ namespace vsgoto
         public static void OpenFile(string file, int line)
         {
             EnvDTE80.DTE2 dte2;
-            dte2 = (EnvDTE80.DTE2)System.Runtime.InteropServices.Marshal.GetActiveObject("VisualStudio.DTE");
+
+            dte2 = FindVSInstance();
+
+            if(dte2 is null)
+                throw new Exception("No Visual Studio version found");
+            
             dte2.MainWindow.Activate();
             EnvDTE.Window w = dte2.ItemOperations.OpenFile(file);
             ((EnvDTE.TextSelection)dte2.ActiveDocument.Selection).GotoLine(line, true);
+        }
+
+        public static EnvDTE80.DTE2 FindVSInstance()
+        {
+            try {
+                return (EnvDTE80.DTE2)System.Runtime.InteropServices.Marshal.GetActiveObject(
+                    "VisualStudio.DTE");
+            } catch (Exception ex) { }
+
+            foreach (var vsVersion in VSVersions.Reverse()) {
+                try
+                {
+                    return (EnvDTE80.DTE2) System.Runtime.InteropServices.Marshal.GetActiveObject(
+                        "VisualStudio.DTE." + vsVersion.Value);
+                }catch(Exception ex) { }
+            }
+
+            return null;
         }
 
         public static void ExportRegFile()

@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.539
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vsgoto", "vsgoto\vsgoto.csproj", "{C9011899-1559-477A-A6D9-4898E4645EAD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vsgoto", "src\vsgoto\vsgoto.csproj", "{C9011899-1559-477A-A6D9-4898E4645EAD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CopyVsgotoLink", "src\CopyVsgotoLink\CopyVsgotoLink.csproj", "{184E1330-D1E0-4B74-85C7-B33BA8C958DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{C9011899-1559-477A-A6D9-4898E4645EAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C9011899-1559-477A-A6D9-4898E4645EAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9011899-1559-477A-A6D9-4898E4645EAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{184E1330-D1E0-4B74-85C7-B33BA8C958DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{184E1330-D1E0-4B74-85C7-B33BA8C958DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{184E1330-D1E0-4B74-85C7-B33BA8C958DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{184E1330-D1E0-4B74-85C7-B33BA8C958DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
