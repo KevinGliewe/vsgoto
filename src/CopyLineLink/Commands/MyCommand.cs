@@ -62,16 +62,7 @@ namespace CopyLineLink
             string message = GetUrl();
             string title = "CopyLineLink";
 
-            Clipboard.SetText(message);
-
-            //// Show a message box to prove we were here
-            //VsShellUtilities.ShowMessageBox(
-            //    this.package,
-            //    message,
-            //    title,
-            //    OLEMSGICON.OLEMSGICON_INFO,
-            //    OLEMSGBUTTON.OLEMSGBUTTON_OK,
-            //    OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
+            ClipboardHelper.CopyLinkToClipboard(message, message);
 
             await VS.MessageBox.ShowAsync(title, message);
         }
