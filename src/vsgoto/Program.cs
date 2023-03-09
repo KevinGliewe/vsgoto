@@ -22,6 +22,7 @@ namespace vsgoto
             {"2015", "14.0"},
             {"2017", "15.0"},
             {"2019", "16.0"},
+            {"2022", "17.0"},
         };
 
         static void Main(string[] args)
